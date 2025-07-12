@@ -7,5 +7,6 @@ using UnityEngine;
 public class BoxSO : ScriptableObject
 {
     public GameObject prefab;
+    public Sprite icon;
     [Min(0.1f)] public float weight = 1f;   // kg, affects physics & player
 }

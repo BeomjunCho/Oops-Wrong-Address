@@ -94,6 +94,22 @@ public class PlayerController : MonoBehaviour
     // time
     private float _mouseLookEnableTime;
 
+    /* ------------------------------------------------------------------ */
+    /*  Public Property                                                   */
+    /* ------------------------------------------------------------------ */
+
+    /// <summary>True while Space is held for jump.</summary>
+    public bool isChargingJump => _chargingJump;
+
+    /// <summary>True while LMB is held for throw.</summary>
+    public bool isChargingThrow => _chargingThrow;
+
+    /// <summary>0-1 ratio of the actual jump impulse that will be applied.</summary>
+    public float jumpPowerRatio => _jumpCharge * JumpFactor();
+
+    /// <summary>0-1 ratio of the actual throw speed that will be applied.</summary>
+    public float throwPowerRatio => _throwCharge * ThrowFactor();
+
     /* ================================================================== */
     /*  Unity lifecycle                                                   */
     /* ================================================================== */
@@ -200,15 +216,19 @@ public class PlayerController : MonoBehaviour
 
         _heldBoxGO.transform.SetParent(null);
 
+        Vector3 playerVel =
+            transform.forward * _currentFwdSpeed + Vector3.up * _verticalVel;
+
         Vector3 dir = Quaternion.AngleAxis(_throwAngleDeg, _handAnchor.right) *
                       _handAnchor.forward;
         dir.Normalize();
 
         float speed = _baseThrowForce * _throwCharge * ThrowFactor();
-        Vector3 launchVelocity = dir * speed;
 
-        _heldBoxGO.GetComponent<ThrownBox>()
-                  .Init(_currentBox.weight, launchVelocity);
+        Vector3 launchVelocity = dir * speed + playerVel;
+
+        var thrown = _heldBoxGO.GetComponent<ThrownBox>();
+        thrown.Init(_currentBox.weight, launchVelocity, this);  
 
         _heldBoxGO = null;
     }
@@ -329,4 +349,5 @@ public class PlayerController : MonoBehaviour
     public float throwCharge => _throwCharge;
     public float jumpCharge => _jumpCharge;
     public BoxSO currentBox => _currentBox;
+    public BoxSO nextBox => _nextBoxes.Count > 0 ? _nextBoxes.Peek() : null;
 }
