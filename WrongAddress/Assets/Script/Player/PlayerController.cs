@@ -216,8 +216,8 @@ public class PlayerController : MonoBehaviour
 
         _heldBoxGO.transform.SetParent(null);
 
-        Vector3 playerVel =
-            transform.forward * _currentFwdSpeed + Vector3.up * _verticalVel;
+        Vector3 playerHorVel = transform.forward * _currentFwdSpeed;
+        float upwardVel = Mathf.Max(0f, _verticalVel);  
 
         Vector3 dir = Quaternion.AngleAxis(_throwAngleDeg, _handAnchor.right) *
                       _handAnchor.forward;
@@ -225,10 +225,12 @@ public class PlayerController : MonoBehaviour
 
         float speed = _baseThrowForce * _throwCharge * ThrowFactor();
 
-        Vector3 launchVelocity = dir * speed + playerVel;
+        Vector3 launchVelocity = dir * speed +
+                                 playerHorVel +
+                                 Vector3.up * upwardVel;
 
-        var thrown = _heldBoxGO.GetComponent<ThrownBox>();
-        thrown.Init(_currentBox.weight, launchVelocity, this);  
+        _heldBoxGO.GetComponent<ThrownBox>()
+                  .Init(_currentBox.weight, launchVelocity, this);
 
         _heldBoxGO = null;
     }

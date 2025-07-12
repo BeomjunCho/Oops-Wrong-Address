@@ -1526,7 +1526,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7028148933861110529, guid: fae677cbb0f96084b84f43d615911751, type: 3}
       propertyPath: _baseThrowForce
-      value: 30
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 7028148933861110529, guid: fae677cbb0f96084b84f43d615911751, type: 3}
       propertyPath: _minThrowFactor
