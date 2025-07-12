@@ -3,10 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 
 /// <summary>
-/// Heads-Up Display: wind + current / next box info.
-/// Wind section updates instantly via WindManager.OnWindChanged event.
-/// Box section polls PlayerController once per frame (cheap) and refreshes only
-/// when the current or next box actually changes.
+/// Heads-Up Display: wind + current / next box info + 3-minute countdown timer.
 /// </summary>
 public class HUDManager : MonoBehaviour
 {
@@ -15,36 +12,43 @@ public class HUDManager : MonoBehaviour
     /* ------------------------------------------------------------------ */
     [Header("Wind Icons")]
     [SerializeField] private Image _windDirImage;
-    [SerializeField] private Sprite _northSprite;   // +Z
-    [SerializeField] private Sprite _eastSprite;    // +X
-    [SerializeField] private Sprite _southSprite;   // -Z
-    [SerializeField] private Sprite _westSprite;    // -X
-
+    [SerializeField] private Sprite _northSprite;
+    [SerializeField] private Sprite _eastSprite;
+    [SerializeField] private Sprite _southSprite;
+    [SerializeField] private Sprite _westSprite;
     [SerializeField] private TMP_Text _speedText;
 
     /* ------------------------------------------------------------------ */
-    /*  📦 Box HUD                                                         */
+    /*  📦 Box UI                                                          */
     /* ------------------------------------------------------------------ */
     [Header("Box Icons & Text")]
     [SerializeField] private PlayerController _player;
-
     [SerializeField] private Image _curBoxImage;
     [SerializeField] private TMP_Text _curBoxWeight;
-
     [SerializeField] private Image _nextBoxImage;
     [SerializeField] private TMP_Text _nextBoxWeight;
 
     [System.Serializable]
-    private struct WeightIconPair
-    {
-        public float weight;   // e.g. 1,3,5,10,15,20
-        public Sprite icon;     // matching sprite
-    }
-
-    [Tooltip("Weight-to-icon lookup table")]
+    private struct WeightIconPair { public float weight; public Sprite icon; }
     [SerializeField] private WeightIconPair[] _iconTable;
 
-    /*  Cached state to avoid unnecessary UI updates                       */
+    /* ------------------------------------------------------------------ */
+    /*  ⏱️ Timer UI                                                        */
+    /* ------------------------------------------------------------------ */
+    [Header("Timer")]
+    [SerializeField] private TMP_Text _timerText;
+    [SerializeField] private Color _normalColor = Color.white;
+    [SerializeField] private Color _yellowColor = Color.yellow;
+    [SerializeField] private Color _orangeColor = new Color(1f, 0.55f, 0f);
+    [SerializeField] private Color _redColor = Color.red;
+
+    private const float _startTime = 180f;     // 3 min in seconds
+    private float _timeLeft = _startTime;
+    private bool _timerRunning = true;
+
+    /* ------------------------------------------------------------------ */
+    /*  Internal cache                                                    */
+    /* ------------------------------------------------------------------ */
     private BoxSO _cachedCurBox;
     private BoxSO _cachedNextBox;
 
@@ -68,10 +72,24 @@ public class HUDManager : MonoBehaviour
 
     private void Update()
     {
-        if (_player == null) return;
+        /* ---- Timer update -------------------------------------------- */
+        if (_timerRunning)
+        {
+            _timeLeft -= Time.deltaTime;
+            if (_timeLeft <= 0f)
+            {
+                _timeLeft = 0f;
+                _timerRunning = false;
+            }
+            UpdateTimerUI();
+        }
 
-        if (_player.currentBox != _cachedCurBox || _player.nextBox != _cachedNextBox)
+        /* ---- Box HUD polling ----------------------------------------- */
+        if (_player != null &&
+            (_player.currentBox != _cachedCurBox || _player.nextBox != _cachedNextBox))
+        {
             RefreshBoxHUD();
+        }
     }
 
     /* ------------------------------------------------------------------ */
@@ -119,9 +137,28 @@ public class HUDManager : MonoBehaviour
 
     private Sprite FindIconFor(float weight)
     {
-        foreach (var pair in _iconTable)
-            if (Mathf.Approximately(pair.weight, weight))
-                return pair.icon;
+        foreach (var p in _iconTable)
+            if (Mathf.Approximately(p.weight, weight))
+                return p.icon;
         return null;
+    }
+
+    /* ------------------------------------------------------------------ */
+    /*  Timer helpers                                                     */
+    /* ------------------------------------------------------------------ */
+    private void UpdateTimerUI()
+    {
+        int minutes = Mathf.FloorToInt(_timeLeft / 60f);
+        int seconds = Mathf.FloorToInt(_timeLeft % 60f);
+        _timerText.text = $"{minutes:0}:{seconds:00}";
+
+        if (_timeLeft <= 30f)
+            _timerText.color = _redColor;
+        else if (_timeLeft <= 60f)
+            _timerText.color = _orangeColor;
+        else if (_timeLeft <= 120f)
+            _timerText.color = _yellowColor;
+        else
+            _timerText.color = _normalColor;
     }
 }
