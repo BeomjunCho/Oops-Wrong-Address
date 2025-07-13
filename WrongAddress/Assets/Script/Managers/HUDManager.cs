@@ -47,6 +47,12 @@ public class HUDManager : MonoBehaviour
     private bool _timerRunning = true;
 
     /* ------------------------------------------------------------------ */
+    /*  🏆 Score UI                                                      */
+    /* ------------------------------------------------------------------ */
+    [Header("Score")]
+    [SerializeField] private TMP_Text _scoreText;
+
+    /* ------------------------------------------------------------------ */
     /*  Internal cache                                                    */
     /* ------------------------------------------------------------------ */
     private BoxSO _cachedCurBox;
@@ -62,12 +68,25 @@ public class HUDManager : MonoBehaviour
 
         if (WindManager.Instance != null)
             WindManager.Instance.OnWindChanged += ApplyWind;
+
+        /* -------- score: subscribe & initial draw -------- */
+        if (ScoreManager.Instance != null)
+        {
+            // 1) initial value
+            _scoreText.text = $"{ScoreManager.Instance.totalScore:0}";
+            // 2) subscribe for future changes
+            ScoreManager.Instance.OnScoreChanged += OnScoreChanged;
+        }
     }
 
     private void OnDestroy()
     {
         if (WindManager.Instance != null)
             WindManager.Instance.OnWindChanged -= ApplyWind;
+
+        /* -------- score unsubscribe -------- */
+        if (ScoreManager.Instance != null)
+            ScoreManager.Instance.OnScoreChanged -= OnScoreChanged;
     }
 
     private void Update()
@@ -90,6 +109,17 @@ public class HUDManager : MonoBehaviour
         {
             RefreshBoxHUD();
         }
+    }
+
+    /* ================================================================== */
+    /*  Event callback for score                                          */
+    /* ================================================================== */
+    /// <summary>
+    /// Updates score text whenever the global score changes.
+    /// </summary>
+    private void OnScoreChanged(float newTotal)
+    {
+        _scoreText.text = $"{newTotal:0}";
     }
 
     /* ------------------------------------------------------------------ */
