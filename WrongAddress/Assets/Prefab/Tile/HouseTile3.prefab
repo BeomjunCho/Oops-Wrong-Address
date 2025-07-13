@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9008248187359707258}
   - component: {fileID: 5717512849840635287}
   - component: {fileID: 961498208131079750}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 7943014223377510752}
   - component: {fileID: 1705386090128850545}
   - component: {fileID: 4575692245863921915}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: House
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -227,7 +227,7 @@ GameObject:
   - component: {fileID: 563654624386662653}
   - component: {fileID: 392134747774226136}
   - component: {fileID: -1488591641805460440}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HouseTile3
   m_TagString: Untagged
   m_Icon: {fileID: 0}

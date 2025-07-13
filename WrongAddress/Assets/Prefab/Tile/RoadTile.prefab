@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8538008095592266952}
   - component: {fileID: 8236462077014795124}
   - component: {fileID: 5538253279789906092}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Road
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 7262011161267360179}
   - component: {fileID: 5321665240822667894}
   - component: {fileID: 3131074798937079400}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RoadTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
