@@ -41,10 +41,10 @@ public class HUDManager : MonoBehaviour
     [SerializeField] private Color _yellowColor = Color.yellow;
     [SerializeField] private Color _orangeColor = new Color(1f, 0.55f, 0f);
     [SerializeField] private Color _redColor = Color.red;
+    [SerializeField] private float _startTime = 180f;
 
-    private const float _startTime = 180f;     // 3 min in seconds
-    private float _timeLeft = _startTime;
-    private bool _timerRunning = true;
+    private float _timeLeft;
+    private bool _timerRunning;
 
     /* ------------------------------------------------------------------ */
     /*  🏆 Score UI                                                      */
@@ -58,11 +58,20 @@ public class HUDManager : MonoBehaviour
     private BoxSO _cachedCurBox;
     private BoxSO _cachedNextBox;
 
+    private bool _finishTriggered;  
+
     /* ------------------------------------------------------------------ */
     /*  Unity lifecycle                                                   */
     /* ------------------------------------------------------------------ */
+
+    
     private void Start()
     {
+        _finishTriggered = false;
+
+        _timeLeft = _startTime;
+        _timerRunning = true;
+
         ApplyWind(WindManager.Instance?.currentWind ?? Vector3.zero);
         RefreshBoxHUD();
 
@@ -76,6 +85,16 @@ public class HUDManager : MonoBehaviour
             _scoreText.text = $"{ScoreManager.Instance.totalScore:0}";
             // 2) subscribe for future changes
             ScoreManager.Instance.OnScoreChanged += OnScoreChanged;
+        }
+    }
+
+    private void OnEnable()
+    {
+        if (ScoreManager.Instance == null)
+        {
+            Debug.LogError("HUDManager: ScoreManager missing!");
+            enabled = false;
+            return;
         }
     }
 
@@ -99,6 +118,12 @@ public class HUDManager : MonoBehaviour
             {
                 _timeLeft = 0f;
                 _timerRunning = false;
+                if (!_finishTriggered)
+                {
+                    _finishTriggered = true;
+                    if (GameManager.Instance != null)
+                        GameManager.Instance.FinishGame();
+                }
             }
             UpdateTimerUI();
         }

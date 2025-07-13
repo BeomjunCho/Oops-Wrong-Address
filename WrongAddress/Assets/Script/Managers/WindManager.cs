@@ -4,6 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Global wind source. Changes direction and strength every _interval seconds.
 /// </summary>
+[DefaultExecutionOrder(-190)]   // WindManager right after
 public class WindManager : MonoBehaviour
 {
     /* ------------------------------------------------------------------ */
@@ -89,5 +90,11 @@ public class WindManager : MonoBehaviour
         _windVelocity = dir * spd;
 
         OnWindChanged?.Invoke(_windVelocity);
+    }
+    public void ResetWind()
+    {
+        StopAllCoroutines();
+        _windVelocity = Vector3.zero;
+        StartCoroutine(WindLoop());     // restart 15-sec wind cycle
     }
 }
