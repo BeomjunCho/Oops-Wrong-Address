@@ -61,4 +61,13 @@ public class BoxPool : MonoBehaviour
             q.Enqueue(go);
         }
     }
+
+    /// <summary>Destroys every pooled instance and clears dictionaries.</summary>
+    public void ClearPools()
+    {
+        foreach (var q in _pools.Values)
+            while (q.Count > 0)
+                Destroy(q.Dequeue());
+        _pools.Clear();
+    }
 }

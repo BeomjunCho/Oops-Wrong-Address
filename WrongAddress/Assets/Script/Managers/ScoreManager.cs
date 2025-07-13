@@ -5,6 +5,7 @@ using UnityEngine;
 /// Global score keeper (singleton).  
 /// Call AddScore to increase points; subscribable event notifies HUD.
 /// </summary>
+[DefaultExecutionOrder(-200)]   // ScoreManager first
 public class ScoreManager : MonoBehaviour
 {
     /* ------------------------------------------------------------------ */
@@ -12,23 +13,32 @@ public class ScoreManager : MonoBehaviour
     /* ------------------------------------------------------------------ */
     public static ScoreManager Instance { get; private set; }
 
+    /* ------------------------------------------------------------------ */
+    /*  Scores + event                                                    */
+    /* ------------------------------------------------------------------ */
+    private const string BestKey = "BEST_SCORE";
+
+    private float _totalScore;
+    /// <summary>Total accumulated score.</summary>
+    public float totalScore => _totalScore;
+
+    private float _bestScore;
+    public float bestScore => _bestScore;
+
+    /// <summary>Event fired when score changes. Arg = new total score.</summary>
+    public event Action<float> OnScoreChanged;
+    public event Action<float, Vector3> OnScorePopup; // amount, worldPos
+
+
     private void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        // load best score from disk
+        _bestScore = PlayerPrefs.GetFloat(BestKey, 0f);
     }
-
-    /* ------------------------------------------------------------------ */
-    /*  Scores + event                                                    */
-    /* ------------------------------------------------------------------ */
-    private float _totalScore;
-    /// <summary>Total accumulated score.</summary>
-    public float totalScore => _totalScore;
-
-    /// <summary>Event fired when score changes. Arg = new total score.</summary>
-    public event Action<float> OnScoreChanged;
-    public event Action<float, Vector3> OnScorePopup; // amount, worldPos
 
     /// <summary>
     /// Adds points to the total score.
@@ -40,9 +50,22 @@ public class ScoreManager : MonoBehaviour
         Debug.Log($"AddScore called: {amount}", this);
         if (amount <= 0f) return;
 
-        OnScorePopup?.Invoke(amount, worldPos);      // popup first
+        OnScorePopup?.Invoke(amount, worldPos);      // popup in score pop up spawner
 
         _totalScore += amount;
+        OnScoreChanged?.Invoke(_totalScore);
+
+        // update best score if needed
+        if (_totalScore > _bestScore)
+        {
+            _bestScore = _totalScore;
+            PlayerPrefs.SetFloat(BestKey, _bestScore);
+            PlayerPrefs.Save();
+        }
+    }
+    public void ResetScore()
+    {
+        _totalScore = 0f;
         OnScoreChanged?.Invoke(_totalScore);
     }
 }

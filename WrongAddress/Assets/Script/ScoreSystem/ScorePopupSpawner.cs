@@ -10,6 +10,8 @@ public class ScorePopupSpawner : MonoBehaviour
     [SerializeField] private float _riseDistance = 60f;
     [SerializeField] private float _duration = 1.2f;
 
+    private bool _subscribed;
+
     private void Awake()
     {
         if (_worldCam == null) _worldCam = Camera.main;
@@ -24,10 +26,11 @@ public class ScorePopupSpawner : MonoBehaviour
 
     private IEnumerator SubscribeWhenReady()
     {
-        while (ScoreManager.Instance == null)
-            yield return null;
+        while (ScoreManager.Instance == null) yield return null;
+        if (_subscribed) yield break;                   // already done
 
         ScoreManager.Instance.OnScorePopup += SpawnPopup;
+        _subscribed = true;
     }
 
     private void OnDisable()
@@ -104,7 +107,7 @@ public class ScorePopupSpawner : MonoBehaviour
             float ratio = t / _duration;
             rt.anchoredPosition = Vector2.Lerp(start, end, ratio);
             if (cg != null) cg.alpha = 1f - ratio;
-            t += Time.deltaTime;
+            t += Time.unscaledDeltaTime;  // runs even when paused
             yield return null;
         }
         Destroy(rt.gameObject);
