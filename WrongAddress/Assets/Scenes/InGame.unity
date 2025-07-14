@@ -1565,13 +1565,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalRotation: {x: 0.44320488, y: -0.6767348, z: 0.05653319, w: 0.58515257}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 36.527, y: -112.599, z: -41.618}
 --- !u!4 &705939693 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6269489272812396688, guid: fae677cbb0f96084b84f43d615911751, type: 3}
@@ -4279,6 +4279,10 @@ PrefabInstance:
     - target: {fileID: 561609029707356520, guid: fae677cbb0f96084b84f43d615911751, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0.20888636
+      objectReference: {fileID: 0}
+    - target: {fileID: 2832326798079997547, guid: fae677cbb0f96084b84f43d615911751, type: 3}
+      propertyPath: far clip plane
+      value: 31771.6
       objectReference: {fileID: 0}
     - target: {fileID: 6269489272812396688, guid: fae677cbb0f96084b84f43d615911751, type: 3}
       propertyPath: m_LocalPosition.x
