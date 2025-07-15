@@ -1161,6 +1161,7 @@ MonoBehaviour:
   _acceleration: 10
   _baseJumpForce: 30
   _maxJumpChargeTime: 2
+  _xBounds: {x: -8.5, y: 8.5}
   _minSpeedFactor: 0.6
   _minJumpFactor: 0.7
   _minThrowFactor: 0.7
