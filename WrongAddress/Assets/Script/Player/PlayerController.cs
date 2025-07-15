@@ -25,6 +25,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _maxJumpChargeTime = 1f;
 
     /* ------------------------------------------------------------------ */
+    /*  Horizontal Bounds                                                 */
+    /* ------------------------------------------------------------------ */
+    [Header("Bounds")]
+    [Tooltip("World-space X range in which the player is allowed to stay.")]
+    [SerializeField] private Vector2 _xBounds = new(-9f, 9f);
+
+    /* ------------------------------------------------------------------ */
     /*  Weight Balancing Factors                                          */
     /* ------------------------------------------------------------------ */
     [Header("Weight Balancing")]
@@ -154,6 +161,7 @@ public class PlayerController : MonoBehaviour
         HandleJumpInput();
         HandleThrowInput();
         Move();
+        ClampHorizontalPosition();    // keep X inside bounds
         UpdateTrajectory();
     }
 
@@ -321,6 +329,16 @@ public class PlayerController : MonoBehaviour
 
         move.y = _verticalVel;
         _cc.Move(move * Time.deltaTime);
+    }
+
+    /// <summary>
+    /// Clamps player's X position to the configured bounds.
+    /// </summary>
+    private void ClampHorizontalPosition()
+    {
+        Vector3 pos = transform.position;
+        pos.x = Mathf.Clamp(pos.x, _xBounds.x, _xBounds.y);
+        transform.position = pos;
     }
 
     /* ================================================================== */

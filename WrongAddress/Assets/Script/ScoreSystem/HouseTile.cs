@@ -13,14 +13,25 @@ public class HouseTile : MonoBehaviour
     /* ------------------------------------------------------------------ */
     [Tooltip("Point the player is trying to hit (usually tile center).")]
     [SerializeField] private Transform _deliveryPoint;
+    /* ------------------------------------------------------------------ */
+    /*  Lock & Indicator                                                  */
+    /* ------------------------------------------------------------------ */
+    [Tooltip("UI marker shown while this tile is unlocked.")]
+    [SerializeField] private GameObject _indicator;
+
+    private bool _isLocked;
 
     /* ------------------------------------------------------------------ */
     /*  Trigger entry                                                     */
     /* ------------------------------------------------------------------ */
     private void OnTriggerEnter(Collider other)
     {
+        if (_isLocked) return;
+
         if (other.TryGetComponent(out BoxScoringTracker tracker))
         {
+            _isLocked = true;                // lock after first hit
+            if (_indicator != null) _indicator.SetActive(false);
             tracker.Register(this);
         }
     }
@@ -50,4 +61,18 @@ public class HouseTile : MonoBehaviour
         int segments = Mathf.FloorToInt(distance / 1f);
         return Mathf.Max(0f, 100f - segments * 5f);
     }
+
+    /// <summary>
+    /// Unlocks this tile so it can score again and shows the indicator.
+    /// </summary>
+    public void Unlock()
+    {
+        _isLocked = false;
+        if (_indicator != null) _indicator.SetActive(true);
+    }
+
+    /* ------------------------------------------------------------------ */
+    /*  Pool Reset                                                        */
+    /* ------------------------------------------------------------------ */
+    private void OnDisable() => Unlock();   // auto‑reset when returned to pool
 }

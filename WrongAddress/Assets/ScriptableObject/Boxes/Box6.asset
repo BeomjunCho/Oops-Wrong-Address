@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a770ea99f2ab1141bead3e755f2090a, type: 3}
   m_Name: Box6
   m_EditorClassIdentifier: 
-  prefab: {fileID: 8416404893176513892, guid: 464967c0508b87646bef43ec71469c03, type: 3}
+  prefab: {fileID: 3626834713821483598, guid: 5b98a283b9106d6438d66fa2896428cb, type: 3}
   icon: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   weight: 20
