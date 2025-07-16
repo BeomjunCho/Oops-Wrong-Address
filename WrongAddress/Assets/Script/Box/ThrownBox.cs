@@ -31,7 +31,7 @@ public class ThrownBox : MonoBehaviour
         _rb.velocity = launchVelocity;
         _rb.angularVelocity = Vector3.zero;
 
-        /* NEW: wind starts only after velocity is set */
+        /* Wind starts only after velocity is set */
         GetComponent<BoxWindReceiver>()?.ActivateWind();
 
         if (_lifeRoutine != null) StopCoroutine(_lifeRoutine);

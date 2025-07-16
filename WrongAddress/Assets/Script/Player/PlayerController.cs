@@ -295,8 +295,8 @@ public class PlayerController : MonoBehaviour
 
     /// <summary>
     /// Detaches current box, computes launch velocity, and hands it to ThrownBox.
-    /// Important: ONLY upward (positive) Y velocity is added so that falling
-    /// momentum does not cancel the throw arc (option A).
+    /// ONLY upward (positive) Y velocity is added so that falling
+    /// momentum does not cancel the throw arc.
     /// </summary>
     private void ThrowHeldBox()
     {

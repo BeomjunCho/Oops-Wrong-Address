@@ -45,6 +45,12 @@ public class HUDManager : MonoBehaviour
 
     private float _timeLeft;
     private bool _timerRunning;
+    private AudioClip _timeLimitClip;
+
+    // Audio
+    private bool _playedAt120 = false;
+    private bool _playedAt60 = false;
+    private bool _playedAt30 = false;
 
     /* ------------------------------------------------------------------ */
     /*  🏆 Score UI                                                      */
@@ -78,6 +84,9 @@ public class HUDManager : MonoBehaviour
         if (WindManager.Instance != null)
             WindManager.Instance.OnWindChanged += ApplyWind;
 
+        if (AudioManager.Instance != null)
+            _timeLimitClip = AudioManager.Instance.GetSfx("TimeLimit");
+
         /* -------- score: subscribe & initial draw -------- */
         if (ScoreManager.Instance != null)
         {
@@ -90,6 +99,9 @@ public class HUDManager : MonoBehaviour
 
     private void OnEnable()
     {
+        // reset play-once flags whenever HUD re-enables
+        _playedAt120 = _playedAt60 = _playedAt30 = false;
+
         if (ScoreManager.Instance == null)
         {
             Debug.LogError("HUDManager: ScoreManager missing!");
@@ -106,6 +118,10 @@ public class HUDManager : MonoBehaviour
         /* -------- score unsubscribe -------- */
         if (ScoreManager.Instance != null)
             ScoreManager.Instance.OnScoreChanged -= OnScoreChanged;
+
+        _playedAt120 = false;
+        _playedAt60 = false;
+        _playedAt30 = false;
     }
 
     private void Update()
@@ -125,6 +141,23 @@ public class HUDManager : MonoBehaviour
                         GameManager.Instance.FinishGame();
                 }
             }
+
+            if (!_playedAt120 && _timeLeft <= 120f)
+            {
+                SFX2DManager.Instance.Play2dSfx("TimeLimit", _timeLimitClip, 1f);
+                _playedAt120 = true;
+            }
+            if (!_playedAt60 && _timeLeft <= 60f)
+            {
+                SFX2DManager.Instance.Play2dSfx("TimeLimit", _timeLimitClip, 1f);
+                _playedAt60 = true;
+            }
+            if (!_playedAt30 && _timeLeft <= 30f)
+            {
+                SFX2DManager.Instance.Play2dSfx("TimeLimit", _timeLimitClip, 1f);
+                _playedAt30 = true;
+            }
+
             UpdateTimerUI();
         }
 

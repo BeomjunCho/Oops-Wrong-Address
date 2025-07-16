@@ -30,6 +30,8 @@ public class WindManager : MonoBehaviour
     /* ------------------------------------------------------------------ */
     private Vector3 _windVelocity = Vector3.zero;
 
+    private AudioClip _windClip;
+
     /// <summary>Current wind velocity in m/s (XZ plane).</summary>
     public Vector3 currentWind => _windVelocity;
 
@@ -55,6 +57,7 @@ public class WindManager : MonoBehaviour
 
     private void Start()
     {
+        _windClip = AudioManager.Instance.GetSfx("Wind");
         StartCoroutine(WindLoop());
     }
 

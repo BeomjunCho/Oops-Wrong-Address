@@ -139,7 +139,8 @@ namespace Supercyan.FreeSample
 
         private void TankUpdate()
         {
-            float v = Input.GetAxis("Vertical");
+            //float v = Input.GetAxis("Vertical");
+            float v = 0f;
             //float h = Input.GetAxis("Horizontal");
             float h = 0f;
 
@@ -168,7 +169,8 @@ namespace Supercyan.FreeSample
 
         private void DirectUpdate()
         {
-            float v = Input.GetAxis("Vertical");
+            //float v = Input.GetAxis("Vertical");
+            float v = 0f;
             //float h = Input.GetAxis("Horizontal");
             float h = 0f;  // disable A/D strafing
 
