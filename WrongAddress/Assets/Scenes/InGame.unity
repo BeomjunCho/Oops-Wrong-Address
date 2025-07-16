@@ -3623,7 +3623,7 @@ MonoBehaviour:
   _yellowColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   _orangeColor: {r: 1, g: 0.55, b: 0, a: 1}
   _redColor: {r: 1, g: 0, b: 0, a: 1}
-  _startTime: 10
+  _startTime: 180
   _scoreText: {fileID: 1942468953}
 --- !u!1 &1604763311
 GameObject:

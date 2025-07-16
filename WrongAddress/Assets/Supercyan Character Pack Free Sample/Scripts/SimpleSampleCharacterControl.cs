@@ -140,7 +140,8 @@ namespace Supercyan.FreeSample
         private void TankUpdate()
         {
             float v = Input.GetAxis("Vertical");
-            float h = Input.GetAxis("Horizontal");
+            //float h = Input.GetAxis("Horizontal");
+            float h = 0f;
 
             bool walk = Input.GetKey(KeyCode.LeftShift);
 
@@ -168,7 +169,8 @@ namespace Supercyan.FreeSample
         private void DirectUpdate()
         {
             float v = Input.GetAxis("Vertical");
-            float h = Input.GetAxis("Horizontal");
+            //float h = Input.GetAxis("Horizontal");
+            float h = 0f;  // disable A/D strafing
 
             Transform camera = Camera.main.transform;
 
