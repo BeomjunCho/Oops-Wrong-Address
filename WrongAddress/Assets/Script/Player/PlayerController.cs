@@ -12,6 +12,9 @@ using UnityEditor;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
+    [Header("Animation")]
+    [SerializeField] private Animator _animator;  // Reference to Animator component
+
     /* ------------------------------------------------------------------ */
     /*  Movement & Jump (base)                                            */
     /* ------------------------------------------------------------------ */
@@ -152,6 +155,8 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _cc = GetComponent<CharacterController>();
+        if (_animator == null)
+            _animator = GetComponentInChildren<Animator>();
 
         if (_cam == null && Camera.main != null) _cam = Camera.main.transform;
         if (_camTarget == null) _camTarget = transform;
@@ -181,6 +186,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        bool grounded = _cc.isGrounded;
+        _animator.SetBool("Grounded", grounded);
+
         HandleMouseLook();
         HandleJumpInput();
         HandleThrowInput();
@@ -376,6 +384,10 @@ public class PlayerController : MonoBehaviour
                        transform.right * h * _baseLateralSpeed * speedFactor;
 
         move.y = _verticalVel;
+
+        float runSpeed = new Vector3(move.x, 0f, move.z).magnitude;
+        _animator.SetFloat("MoveSpeed", runSpeed);
+
         _cc.Move(move * Time.deltaTime);
     }
 
