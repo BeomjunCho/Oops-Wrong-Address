@@ -3428,9 +3428,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'WASD - MOVE
-
-    SPACE JUMP
+  m_text: 'SPACE JUMP
 
     TAB - PAUSE
 
