@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Box6
   m_EditorClassIdentifier: 
   prefab: {fileID: 3626834713821483598, guid: 5b98a283b9106d6438d66fa2896428cb, type: 3}
-  icon: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  icon: {fileID: 21300000, guid: 334be94a090055c48b89d521d192fa8f, type: 3}
   weight: 20
