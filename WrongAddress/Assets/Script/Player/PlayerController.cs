@@ -199,6 +199,8 @@ public class PlayerController : MonoBehaviour
         /* Release Space -> apply impulse */
         if (Input.GetKeyUp(KeyCode.Space) && _chargingJump && grounded)
         {
+            var jumpClip = AudioManager.Instance.GetSfx("Player_Jump");
+            
             // finalJump = base * charge * weightFactor
             _verticalVel = _baseJumpForce * _jumpCharge * JumpFactor();
             _jumpCharge = 0f;

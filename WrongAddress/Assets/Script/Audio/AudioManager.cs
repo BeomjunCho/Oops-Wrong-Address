@@ -94,6 +94,22 @@ public class AudioManager : AudioSingleton<AudioManager>
     /*  Slider callbacks (UI hookup)                                      */
     /* ------------------------------------------------------------------ */
     /// <summary>UI slider → Master volume</summary>
+
+    /// <summary>
+    /// Returns the current cached 0-1 volume value for the requested channel.
+    /// Useful for initializing sliders when (re)entering a scene.
+    /// </summary>
+    public float GetVolume01(AudioChannel ch)
+    {
+        switch (ch)
+        {
+            case AudioChannel.Master: return masterVol;
+            case AudioChannel.Music: return musicVol;
+            case AudioChannel.Sfx: return sfxVol;
+            default: return 1f;
+        }
+    }
+
     public void OnMasterSlider(float value) => SetVolume(AudioChannel.Master, value);
 
     /// <summary>UI slider → Music volume</summary>

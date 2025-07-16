@@ -75,6 +75,18 @@ public class InfiniteTrackManager : MonoBehaviour
     /* ================================================================== */
     /*  Row helpers                                                       */
     /* ================================================================== */
+
+    public void ResetTrack()
+    {
+        // Return every active row's tiles to the pool.
+        foreach (var kvp in _activeRows)
+            DespawnRow(kvp.Value);
+        
+        _activeRows.Clear();
+        
+        // Stop Update() spawning until this scene instance is destroyed.
+        enabled = false;
+    }
     private int RowIndex(float z) => Mathf.FloorToInt(z / _tileLength);
 
     private void SpawnRow(int rowIdx)

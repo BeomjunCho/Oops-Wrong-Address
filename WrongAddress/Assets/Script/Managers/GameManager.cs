@@ -153,6 +153,10 @@ public class GameManager : MonoBehaviour
     /* ------------------------------------------------------------------ */
     private static void ResetSingletons()
     {
+        var track = Object.FindAnyObjectByType<InfiniteTrackManager>();
+            if (track != null)
+            track.ResetTrack();
+
         if (BoxPool.Instance != null) BoxPool.Instance.ClearPools();
         if (TilePool.Instance != null) TilePool.Instance.ClearPools();
         if (ScoreManager.Instance != null) ScoreManager.Instance.ResetScore();
