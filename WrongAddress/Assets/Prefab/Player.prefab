@@ -1119,6 +1119,7 @@ Transform:
   - {fileID: 7590947313400705027}
   - {fileID: 4923802592408178499}
   - {fileID: 7373838527652840034}
+  - {fileID: 1531466317248671893}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &3707442572754100577
@@ -1191,6 +1192,10 @@ MonoBehaviour:
   _groundMask:
     serializedVersion: 2
     m_Bits: 64
+  _runLoopKey: Player_Running_Shoes
+  _runLoopVolume: 0.441
+  _runLoopMinDist: 15
+  _runLoopMaxDist: 50
 --- !u!143 &6869184534318627922
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1362,6 +1367,37 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 72}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &8836900517723635435
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1531466317248671893}
+  m_Layer: 0
+  m_Name: Foot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1531466317248671893
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8836900517723635435}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.91, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6269489272812396688}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9219900056180957701
 GameObject:
   m_ObjectHideFlags: 0

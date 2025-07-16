@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 /// <summary>
 /// 3D sound-effects manager with pooling and distance-based spatial blend
@@ -22,6 +25,21 @@ public class SFX3DManager : AudioSingleton<SFX3DManager>
     private readonly List<AudioSource> audioSourcePool = new List<AudioSource>();
     private readonly Dictionary<string, AudioSource> active3dSounds = new Dictionary<string, AudioSource>();
     private Camera cachedCamera;
+
+#if UNITY_EDITOR
+    private void OnDestroy()
+    {
+        // Cleanup persistent audio sources and manager when exiting Play Mode in Editor
+        if (!Application.isPlaying)
+        {
+            // Destroy all pooled AudioSource GameObjects
+            for (int i = transform.childCount - 1; i >= 0; --i)
+                DestroyImmediate(transform.GetChild(i).gameObject);
+            // Destroy this manager GameObject
+            DestroyImmediate(gameObject);
+        }
+    }
+#endif
 
     // Awake override
     protected override void Awake()

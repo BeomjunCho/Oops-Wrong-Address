@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
         }
         else                      // In-Game scene (HUD active)
         {
-            MusicManager.Instance.PlayMusicByEnum(MusicTrack.InGame, 0.8f, true, 1f);
+            MusicManager.Instance.PlayMusicByEnum(MusicTrack.InGame, 0.6f, true, 1f);
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
@@ -104,6 +104,9 @@ public class GameManager : MonoBehaviour
         if (_ui == null) return;
         Time.timeScale = 0f;
         _ui.ShowScreen(UIScreenType.Finished);
+
+        var finishClip = AudioManager.Instance.GetSfx("FinishGame");
+        SFX2DManager.Instance.Play2dSfx("FinishGame", finishClip, 1.0f);
     }
 
     /// <summary>Called by Replay button on Finished screen.</summary>

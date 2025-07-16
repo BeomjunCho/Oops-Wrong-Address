@@ -86,6 +86,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask _groundMask = 1 << 6;    // e.g. "Ground" layer
 
     /* ------------------------------------------------------------------ */
+    /*  Audio - Run Loop                                                  */
+    /* ------------------------------------------------------------------ */
+    [Header("Audio - Run Loop")]
+    [Tooltip("SFX key in AudioManager for running shoe loop.")]
+    [SerializeField] private string _runLoopKey = "Player_Running_Shoes";
+    [Range(0f, 1f)]
+    [SerializeField] private float _runLoopVolume = 1f;
+    [Tooltip("Optional override: min distance (null = SFX3DManager default).")]
+    [SerializeField] private float _runLoopMinDist = -1f;
+    [Tooltip("Optional override: max distance (null = SFX3DManager default).")]
+    [SerializeField] private float _runLoopMaxDist = -1f;
+
+    /* ------------------------------------------------------------------ */
     /*  Internal state                                                    */
     /* ------------------------------------------------------------------ */
     private CharacterController _cc;
@@ -110,6 +123,12 @@ public class PlayerController : MonoBehaviour
 
     // time
     private float _mouseLookEnableTime;
+
+    // audio flags
+    private bool _jumpChargingSoundPlaying = false;
+    private bool _runLoopPlaying = false;
+    private AudioClip _runLoopClip;
+
 
     /* ------------------------------------------------------------------ */
     /*  Public Property                                                   */
@@ -153,6 +172,11 @@ public class PlayerController : MonoBehaviour
 
         SpawnHeldBox();
         UpdateCameraImmediate();
+
+        // Cache running loop clip once (safe if null)
+        _runLoopClip = AudioManager.Instance.GetSfx(_runLoopKey);
+        if (_runLoopClip == null)
+            Debug.LogWarning($"PlayerController: run loop SFX '{_runLoopKey}' not found in AudioManager.");
     }
 
     private void Update()
@@ -163,6 +187,7 @@ public class PlayerController : MonoBehaviour
         Move();
         ClampHorizontalPosition();    // keep X inside bounds
         UpdateTrajectory();
+        UpdateRunLoopAudio();
     }
 
     private void LateUpdate() => FollowCamera();
@@ -186,28 +211,47 @@ public class PlayerController : MonoBehaviour
     {
         bool grounded = _cc.isGrounded;
 
-        /* Small negative keeps CharacterController grounded */
+        // Keeps CharacterController grounded
         if (grounded && _verticalVel < 0f) _verticalVel = -2f;
 
-        /* Hold Space to charge */
+        // Hold Space to charge
         if (Input.GetKey(KeyCode.Space) && grounded)
         {
+            // Play charging sound only when first starting to charge
+            if (!_chargingJump)
+            {
+                var jumpChargingClip = AudioManager.Instance.GetSfx("Player_Charge_Jump");
+                SFX2DManager.Instance.Play2dSfx("JumpCharging", jumpChargingClip, 1.0f);
+                _jumpChargingSoundPlaying = true;
+            }
             _chargingJump = true;
             _jumpCharge = Mathf.Clamp01(_jumpCharge + Time.deltaTime / _maxJumpChargeTime);
         }
-
-        /* Release Space -> apply impulse */
-        if (Input.GetKeyUp(KeyCode.Space) && _chargingJump && grounded)
+        else if (_chargingJump)
         {
+            // If charging state ends (key released or not grounded), stop sound
+            if (_jumpChargingSoundPlaying)
+            {
+                SFX2DManager.Instance.Stop2dSound("JumpCharging");
+                _jumpChargingSoundPlaying = false;
+            }
+            _chargingJump = false;
+        }
+
+        // Release Space -> apply impulse
+        if (Input.GetKeyUp(KeyCode.Space) && grounded)
+        {
+            SFX2DManager.Instance.Stop2dSound("JumpCharging");
             var jumpClip = AudioManager.Instance.GetSfx("Player_Jump");
-            
+            SFX2DManager.Instance.Play2dSfx("Jump", jumpClip, 1.0f);
             // finalJump = base * charge * weightFactor
             _verticalVel = _baseJumpForce * _jumpCharge * JumpFactor();
             _jumpCharge = 0f;
             _chargingJump = false;
+            _jumpChargingSoundPlaying = false;
         }
 
-        /* Integrate gravity */
+        // Integrate gravity
         _verticalVel += _gravity * Time.deltaTime;
     }
 
@@ -232,6 +276,8 @@ public class PlayerController : MonoBehaviour
         /* Release -> throw */
         if (Input.GetMouseButtonUp(0) && _chargingThrow)
         {
+            var throwClip = AudioManager.Instance.GetSfx("Player_Throw");
+            SFX2DManager.Instance.Play2dSfx("Throw", throwClip, 1.0f);
             ThrowHeldBox();
             CycleNextBox();
             _chargingThrow = false;
@@ -341,6 +387,51 @@ public class PlayerController : MonoBehaviour
         Vector3 pos = transform.position;
         pos.x = Mathf.Clamp(pos.x, _xBounds.x, _xBounds.y);
         transform.position = pos;
+    }
+
+    /// <summary>
+    /// Starts or stops the running shoe loop based on grounded state.
+    /// </summary>
+    private void UpdateRunLoopAudio()
+    {
+        bool grounded = _cc != null && _cc.isGrounded;
+
+        if (grounded)
+        {
+            if (!_runLoopPlaying && _runLoopClip != null)
+            {
+                // Use null overrides when negative; otherwise pass values
+                bool useOverride = _runLoopMinDist >= 0f || _runLoopMaxDist >= 0f;
+                if (useOverride)
+                {
+                    float? minD = _runLoopMinDist >= 0f ? _runLoopMinDist : (float?)null;
+                    float? maxD = _runLoopMaxDist >= 0f ? _runLoopMaxDist : (float?)null;
+                    SFX3DManager.Instance.Play3dSfx(_runLoopKey, _runLoopClip, transform, _runLoopVolume, true, minD, maxD);
+                }
+                else
+                {
+                    // use manager defaults
+                    SFX3DManager.Instance.Play3dSfx(_runLoopKey, _runLoopClip, transform, _runLoopVolume, true);
+                }
+                _runLoopPlaying = true;
+            }
+        }
+        else
+        {
+            if (_runLoopPlaying)
+            {
+                StopRunLoopAudio();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Stops the running shoe loop if active.
+    /// </summary>
+    private void StopRunLoopAudio()
+    {
+        SFX3DManager.Instance.Stop3dSound(_runLoopKey);
+        _runLoopPlaying = false;
     }
 
     /* ================================================================== */
@@ -476,6 +567,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 #endif
+
+
+    private void OnDisable()
+    {
+        // Prevent hierarchy-change error when exiting Play Mode in Editor
+        if (!Application.isPlaying)
+            return;
+        StopRunLoopAudio();
+    }
+
+    private void OnDestroy()
+    {
+        // Prevent hierarchy-change error when exiting Play Mode in Editor
+        if (!Application.isPlaying)
+            return;
+        StopRunLoopAudio();
+    }
 
     /* ================================================================== */
     /*  Public getters                                                    */

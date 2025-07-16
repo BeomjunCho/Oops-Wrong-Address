@@ -47,6 +47,9 @@ public class ScoreManager : MonoBehaviour
     /// <param name="worldPos">World position where the score was awarded (for pop-ups).</param>
     public void AddScore(float amount, Vector3 worldPos)
     {
+        var scoreClip = AudioManager.Instance.GetSfx("Score_Up");
+        SFX2DManager.Instance.Play2dSfx("Score_Up", scoreClip, 1.0f);
+
         Debug.Log($"AddScore called: {amount}", this);
         if (amount <= 0f) return;
 
