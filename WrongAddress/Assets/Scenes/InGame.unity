@@ -6247,12 +6247,32 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 561609029707356520, guid: fae677cbb0f96084b84f43d615911751, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 561609029707356520, guid: fae677cbb0f96084b84f43d615911751, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.389999
+      value: 9.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 561609029707356520, guid: fae677cbb0f96084b84f43d615911751, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -13.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 561609029707356520, guid: fae677cbb0f96084b84f43d615911751, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9911712
       objectReference: {fileID: 0}
     - target: {fileID: 561609029707356520, guid: fae677cbb0f96084b84f43d615911751, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.20888636
+      value: 0.13258852
+      objectReference: {fileID: 0}
+    - target: {fileID: 561609029707356520, guid: fae677cbb0f96084b84f43d615911751, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 561609029707356520, guid: fae677cbb0f96084b84f43d615911751, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2832326798079997547, guid: fae677cbb0f96084b84f43d615911751, type: 3}
       propertyPath: far clip plane
@@ -6301,6 +6321,14 @@ PrefabInstance:
     - target: {fileID: 6577265619381881355, guid: fae677cbb0f96084b84f43d615911751, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7028148933861110529, guid: fae677cbb0f96084b84f43d615911751, type: 3}
+      propertyPath: _camOffset.y
+      value: 3.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 7028148933861110529, guid: fae677cbb0f96084b84f43d615911751, type: 3}
+      propertyPath: _camOffset.z
+      value: -14.5
       objectReference: {fileID: 0}
     - target: {fileID: 7028148933861110529, guid: fae677cbb0f96084b84f43d615911751, type: 3}
       propertyPath: _landingMarker
