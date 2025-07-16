@@ -9,6 +9,7 @@ public class MainMenuCanvas : MonoBehaviour
     [Header("Panel References")]
     [Tooltip("Panel that contains Settings UI.")]
     [SerializeField] private GameObject _settingsPanel;
+    [SerializeField] private GameObject _controlPanel;
 
     /// <summary>
     /// Called by 'Settings' button. Toggles visibility.
@@ -19,6 +20,14 @@ public class MainMenuCanvas : MonoBehaviour
 
         bool isActive = _settingsPanel.activeSelf;
         _settingsPanel.SetActive(!isActive);
+    }
+
+    public void Togglecontrol()
+    {
+        if (_controlPanel == null) return;
+
+        bool isActive = _controlPanel.activeSelf;
+        _controlPanel.SetActive(!isActive);
     }
 
     /// <summary>
