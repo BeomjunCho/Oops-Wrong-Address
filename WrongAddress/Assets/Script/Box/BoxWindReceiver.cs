@@ -29,9 +29,16 @@ public class BoxWindReceiver : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!_inAir || WindManager.Instance == null) return;
+        if (!_inAir) return;
+
+        if (WindManager.Instance == null)
+        {
+            Debug.LogError("BoxWindReceiver: WindManager.Instance is NULL!");
+            return;
+        }
 
         Vector3 wind = WindManager.Instance.currentWind;
+        Debug.Log($"BoxWindReceiver: Applying wind {wind} to {gameObject.name}");
         _rb.AddForce(wind * _windCoeff, ForceMode.Force);
     }
 
