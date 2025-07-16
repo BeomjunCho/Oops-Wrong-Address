@@ -1547,6 +1547,7 @@ GameObject:
   - component: {fileID: 643148573}
   - component: {fileID: 643148572}
   - component: {fileID: 643148571}
+  - component: {fileID: 643148574}
   m_Layer: 5
   m_Name: Button_MainMenu
   m_TagString: Untagged
@@ -1668,6 +1669,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 643148569}
   m_CullTransparentMesh: 1
+--- !u!114 &643148574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 643148569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61e1cf62799d9574f9088ce64d802ca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hoverKey: UI_ButtonHover
+  _clickKey: UI_ButtonClick
+  _volume: 1
 --- !u!1 &654935018
 GameObject:
   m_ObjectHideFlags: 0
@@ -2390,6 +2406,7 @@ GameObject:
   - component: {fileID: 1163863928}
   - component: {fileID: 1163863927}
   - component: {fileID: 1163863926}
+  - component: {fileID: 1163863929}
   m_Layer: 5
   m_Name: BackToMainMenu
   m_TagString: Untagged
@@ -2493,8 +2510,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 15e59e5527d05484ca3c51e8d3600132, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2511,6 +2528,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1163863924}
   m_CullTransparentMesh: 1
+--- !u!114 &1163863929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1163863924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61e1cf62799d9574f9088ce64d802ca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hoverKey: UI_ButtonHover
+  _clickKey: UI_ButtonClick
+  _volume: 1
 --- !u!1 &1196345085
 GameObject:
   m_ObjectHideFlags: 0
@@ -3145,6 +3177,7 @@ GameObject:
   - component: {fileID: 1313310133}
   - component: {fileID: 1313310132}
   - component: {fileID: 1313310131}
+  - component: {fileID: 1313310134}
   m_Layer: 5
   m_Name: Button_Replay
   m_TagString: Untagged
@@ -3266,6 +3299,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1313310129}
   m_CullTransparentMesh: 1
+--- !u!114 &1313310134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313310129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61e1cf62799d9574f9088ce64d802ca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hoverKey: UI_ButtonHover
+  _clickKey: UI_ButtonClick
+  _volume: 1
 --- !u!1 &1365870713
 GameObject:
   m_ObjectHideFlags: 0
@@ -4076,6 +4124,7 @@ GameObject:
   - component: {fileID: 1963599166}
   - component: {fileID: 1963599165}
   - component: {fileID: 1963599164}
+  - component: {fileID: 1963599167}
   m_Layer: 5
   m_Name: Replay
   m_TagString: Untagged
@@ -4179,8 +4228,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 15e59e5527d05484ca3c51e8d3600132, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -4197,6 +4246,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1963599162}
   m_CullTransparentMesh: 1
+--- !u!114 &1963599167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1963599162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61e1cf62799d9574f9088ce64d802ca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hoverKey: UI_ButtonHover
+  _clickKey: UI_ButtonClick
+  _volume: 1
 --- !u!1 &1964876249
 GameObject:
   m_ObjectHideFlags: 0

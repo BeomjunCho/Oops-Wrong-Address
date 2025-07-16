@@ -52,6 +52,8 @@ public class GameManager : MonoBehaviour
 
         if (_ui == null)          // Main-Menu scene
         {
+            MusicManager.Instance.PlayMusicByEnum(MusicTrack.MainMenu, 0.7f, true, 0.5f); // vol, loop, fade
+
             Time.timeScale = 1f;
             _isPaused = false;
             Cursor.lockState = CursorLockMode.None;
@@ -59,6 +61,7 @@ public class GameManager : MonoBehaviour
         }
         else                      // In-Game scene (HUD active)
         {
+            MusicManager.Instance.PlayMusicByEnum(MusicTrack.InGame, 0.8f, true, 1f);
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
