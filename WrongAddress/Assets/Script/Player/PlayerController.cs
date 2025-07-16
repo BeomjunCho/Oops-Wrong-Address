@@ -295,8 +295,7 @@ public class PlayerController : MonoBehaviour
 
     /// <summary>
     /// Detaches current box, computes launch velocity, and hands it to ThrownBox.
-    /// ONLY upward (positive) Y velocity is added so that falling
-    /// momentum does not cancel the throw arc.
+    /// Player vertical velocity is ignored so jumping does not boost the throw.
     /// </summary>
     private void ThrowHeldBox()
     {
@@ -304,11 +303,8 @@ public class PlayerController : MonoBehaviour
 
         _heldBoxGO.transform.SetParent(null);
 
-        /* Player horizontal inertia */
+        /* Player horizontal inertia (inherit forward speed only) */
         Vector3 playerHorVel = transform.forward * _currentFwdSpeed;
-
-        /* Ignore downward velocity when falling (max with 0) */
-        float upwardVel = Mathf.Max(0f, _verticalVel);
 
         /* Aim direction based on anchor forward tilted upward by _throwAngleDeg */
         Vector3 dir = Quaternion.AngleAxis(_throwAngleDeg, _handAnchor.right) *
@@ -318,8 +314,8 @@ public class PlayerController : MonoBehaviour
         /* Raw launch speed scaled by charge and weight */
         float speed = _baseThrowForce * _throwCharge * ThrowFactor();
 
-        /* Final launch velocity */
-        Vector3 launchVelocity = dir * speed + playerHorVel + Vector3.up * upwardVel;
+        /* Final launch velocity (no vertical inheritance from jump) */
+        Vector3 launchVelocity = dir * speed + playerHorVel;
 
         /* Pass to the ThrownBox */
         _heldBoxGO.GetComponent<ThrownBox>()
@@ -500,7 +496,7 @@ public class PlayerController : MonoBehaviour
         Vector3 horVel = transform.forward * _currentFwdSpeed;
         float yVel = Mathf.Max(0f, _verticalVel); // up-only
 
-        Vector3 v0 = dir * speed + horVel + Vector3.up * yVel;
+        Vector3 v0 = dir * speed + horVel;
         Vector3 g = Physics.gravity;
 
         /* ----------- sample points and detect ground intersection ------------- */
